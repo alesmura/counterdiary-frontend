@@ -31,7 +31,6 @@ class CustomizeCountersComponents extends Component {
         let maxSeq = Math.max.apply(Math, this.state.counterTypeList.map(function (ct) { return ct.seq }))
         if (maxSeq < 0)
             maxSeq = 0;
-        console.log("Max seq " + maxSeq)
         const ctDTO = { seq: maxSeq + 1, name: "", description: "" }
         this.setState({ counterTypeDetail: ctDTO, showModal: true })
     }
