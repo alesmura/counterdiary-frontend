@@ -54,11 +54,11 @@ class CounterTypeModal extends Component {
                     </Modal.Header>
                     <Modal.Body>
                         <div>
-                            <label>Name</label>
+                            <label className='col-md-3'>Name</label>
                             <input type='text' value={ctd.name} onChange={this.handleNameChange} ref={this.inputRef} />
                         </div>
                         <div>
-                            <label>Description</label>
+                            <label className='col-md-3'>Description</label>
                             <input type='text' value={ctd.description} onChange={this.handleDescriptionChange} />
                         </div>
                     </Modal.Body>

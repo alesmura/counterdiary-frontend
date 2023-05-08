@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { Button, Table } from 'react-bootstrap'
 import CounterTypeModal from './CounterTypeModal'
+import DeleteCounterTypeModal from './DeleteCounterTypeModal'
 import { Trash, Pencil, Plus } from 'react-bootstrap-icons';
 
 
@@ -12,7 +13,8 @@ class CustomizeCountersComponents extends Component {
         this.state = {
             counterTypeList: [],
             counterTypeDetail: null,
-            showModal: false
+            showModalAdd: false,
+            showModalDelete: false
         }
     }
 
@@ -34,34 +36,41 @@ class CustomizeCountersComponents extends Component {
         if (maxSeq < 0)
             maxSeq = 0;
         const ctDTO = { seq: maxSeq + 1, name: "", description: "" }
-        this.setState({ counterTypeDetail: ctDTO, showModal: true })
+        this.setState({ counterTypeDetail: ctDTO, showModalAdd: true })
     }
 
     editHandler(idx) {
         const ctDTO = this.state.counterTypeList[idx]
-        this.setState({ counterTypeDetail: ctDTO, showModal: true })
+        this.setState({ counterTypeDetail: ctDTO, showModalAdd: true })
     }
 
     closeHandler() {
-        this.setState({ counterTypeDetail: null, showModal: false })
+        this.setState({ counterTypeDetail: null, showModalAdd: false })
         this.readData()
     }
 
-    deleteHandler(idx) {
+    askConfirmHandler(idx) {
         const ctDTO = this.state.counterTypeList[idx]
-        axios.delete(`http://localhost:7889/counterDiary/api/counterType/delete/${ctDTO.id}`)
-            .then(response => {
-                console.log(`Delete counter type ${response.status}`)
-                this.readData()
-            })
-            .catch(error => console.log(error))
+        this.setState({ counterTypeDetail: ctDTO, showModalDelete: true })
+    }
+
+    closeDeleteHandler() {
+        this.setState({ counterTypeDetail: null, showModalDelete: false })
+        this.readData()
     }
 
     render() {
         const counterTypeList = this.state.counterTypeList
         return (
             <div>
-                {this.state.showModal && <CounterTypeModal closeHandler={() => this.closeHandler()} counterTypeDetail={this.state.counterTypeDetail} />}
+                {
+                    this.state.showModalAdd &&
+                    <CounterTypeModal closeHandler={() => this.closeHandler()} counterTypeDetail={this.state.counterTypeDetail} />
+                }
+                {
+                    this.state.showModalDelete &&
+                    <DeleteCounterTypeModal closeDeleteHandler={() => this.closeDeleteHandler()} counterTypeDetail={this.state.counterTypeDetail} />
+                }
                 <Table striped bordered hover size="sm">
                     <thead className="thead-dark">
                         <tr>
@@ -69,7 +78,7 @@ class CustomizeCountersComponents extends Component {
                             <th>Seq</th>
                             <th>Name</th>
                             <th>Descr</th>
-                            <th>
+                            <th className="text-center">
                                 <Button className="btn btn-primary" data-toggle="modal" data-target="#ctModal"
                                     onClick={() => this.addHandler()}>
                                     <Plus />
@@ -81,15 +90,15 @@ class CustomizeCountersComponents extends Component {
                         {counterTypeList.map((ct, index) =>
                         (
                             <tr key={ct.id}>
-                                <td>
-                                    <Button className="btn btn-primary" onClick={() => this.deleteHandler(index)}>
+                                <td className="text-center">
+                                    <Button className="btn btn-primary" onClick={() => this.askConfirmHandler(index)}>
                                         <Trash />
                                     </Button>
                                 </td>
                                 <td>{ct.seq}</td>
                                 <td>{ct.name}</td>
                                 <td>{ct.description}</td>
-                                <td>
+                                <td className="text-center">
                                     <Button className="btn btn-primary" data-toggle="modal" data-target="#ctModal"
                                         onClick={() => this.editHandler(index)}>
                                         <Pencil />
