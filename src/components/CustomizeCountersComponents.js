@@ -60,7 +60,7 @@ class CustomizeCountersComponents extends Component {
         return (
             <div>
                 {this.state.showModal && <CounterTypeModal closeHandler={() => this.closeHandler()} counterTypeDetail={this.state.counterTypeDetail} />}
-                <Table striped bordered hover size="sm" className='mt-5'>
+                <Table striped bordered hover size="sm">
                     <thead className="thead-dark">
                         <tr>
                             <th />

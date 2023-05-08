@@ -45,7 +45,7 @@ class NavigationComponent extends Component {
         const component = links.filter(link => link.id === this.state.activeLink).map(link => link.component);
         return (
             <>
-                <Nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+                <Nav className="navbar navbar-expand-lg navbar-dark bg-primary mb-5">
                     <Container>
                         <Button className="navbar-brand btn btn-link"
                             onClick={() => this.clickHandler(this.state.links[0].id)}>COUNTER DIARY</Button>
