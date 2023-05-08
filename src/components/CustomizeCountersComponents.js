@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Table } from 'react-bootstrap'
+import { Button, Table } from 'react-bootstrap'
 import CounterTypeModal from './CounterTypeModal'
+import { Trash, Pencil, Plus } from 'react-bootstrap-icons';
+
 
 class CustomizeCountersComponents extends Component {
     constructor(props) {
@@ -64,12 +66,14 @@ class CustomizeCountersComponents extends Component {
                     <thead className="thead-dark">
                         <tr>
                             <th />
-                            <th>Sequence</th>
+                            <th>Seq</th>
                             <th>Name</th>
-                            <th>Description</th>
+                            <th>Descr</th>
                             <th>
-                                <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#ctModal"
-                                    onClick={() => this.addHandler()}>Add</button>
+                                <Button className="btn btn-primary" data-toggle="modal" data-target="#ctModal"
+                                    onClick={() => this.addHandler()}>
+                                    <Plus />
+                                </Button>
                             </th>
                         </tr>
                     </thead>
@@ -78,14 +82,18 @@ class CustomizeCountersComponents extends Component {
                         (
                             <tr key={ct.id}>
                                 <td>
-                                    <button type="button" className="btn btn-primary" onClick={() => this.deleteHandler(index)}>Delete</button>
+                                    <Button className="btn btn-primary" onClick={() => this.deleteHandler(index)}>
+                                        <Trash />
+                                    </Button>
                                 </td>
                                 <td>{ct.seq}</td>
                                 <td>{ct.name}</td>
                                 <td>{ct.description}</td>
                                 <td>
-                                    <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#ctModal"
-                                        onClick={() => this.editHandler(index)}>Edit</button>
+                                    <Button className="btn btn-primary" data-toggle="modal" data-target="#ctModal"
+                                        onClick={() => this.editHandler(index)}>
+                                        <Pencil />
+                                    </Button>
                                 </td>
                             </tr>
                         )

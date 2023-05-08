@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { format, addDays } from 'date-fns'
 import './DiaryComponent.css'
+import { Button, Col, Container, Row } from 'react-bootstrap'
+import { Dash, Plus } from 'react-bootstrap-icons';
 
 class DiaryComponent extends Component {
     constructor(props) {
@@ -69,34 +71,42 @@ class DiaryComponent extends Component {
             disabledNextDay = true
         const counterList = this.state.counterList
         return (
-            <div className='container'>
+            <Container>
                 <div className="mb-5 d-flex justify-content-center">
-                    <button type="button" className="btn btn-primary d-inline" onClick={() => this.prevDayHandler()}>Prev.</button>
+                    <Button className="btn btn-primary d-inline btn-square-md" onClick={() => this.prevDayHandler()}>&lt;&lt;</Button>
                     <h2 className='m-3 d-inline'>{displayDate}</h2>
-                    <button type="button" className="btn btn-primary d-inline"
+                    <Button className="btn btn-primary d-inline btn-square-md"
                         disabled={`${disabledNextDay ? "true" : ""}`}
-                        onClick={() => this.nextDayHandler()}>Next</button>
+                        onClick={() => this.nextDayHandler()}>&gt;&gt;</Button>
                 </div>
-                <div className='row'>
+                <Row>
                     {counterList.map((c, index) => {
                         let descr = c.counterTypeDTO.description === '' ? c.counterTypeDTO.name : c.counterTypeDTO.description
                         return (
-                            <div className="customCard col card m-2" key={c.id}>
-                                <div class="card-body">
-                                    <h5 class="card-title">{c.counterTypeDTO.name}</h5>
-                                    <p class="card-text">{descr}</p>
-                                    <button type="button" className="btn btn-primary d-inline"
-                                        disabled={`${c.counter > 0 ? "" : "true"}`}
-                                        onClick={() => this.decrementCountHandler(index)}>-</button>
-                                    <p class="card-text d-inline m-3">{c.counter}</p>
-                                    <button type="button" className="btn btn-primary d-inline" onClick={() => this.incrementCountHandler(index)}>+</button>
+                            <Col className="m-2">
+                                <div className="card" key={c.id}>
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">{c.counterTypeDTO.name}</h5>
+                                        <p class="card-text">{descr}</p>
+
+                                        <Button className="btn btn-primary d-inline btn-square-md"
+                                            disabled={`${c.counter > 0 ? "" : "true"}`}
+                                            onClick={() => this.decrementCountHandler(index)}>
+                                            <Dash />
+                                        </Button>
+                                        <p class="card-text d-inline m-3">{c.counter}</p>
+                                        <Button className="btn btn-primary d-inline btn-square-md"
+                                            onClick={() => this.incrementCountHandler(index)}>
+                                            <Plus />
+                                        </Button>
+                                    </div>
                                 </div>
-                            </div>
+                            </Col>
                         )
                     }
                     )}
-                </div>
-            </div >
+                </Row>
+            </Container>
         )
     }
 }

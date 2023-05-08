@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import DiaryComponent from './DiaryComponent';
 import CustomizeCountersComponents from './CustomizeCountersComponents';
 import StatsComponents from './StatsComponents';
-import { Button, Container, Nav } from 'react-bootstrap';
+import { Container, Nav, NavDropdown, Navbar } from 'react-bootstrap';
 
 class NavigationComponent extends Component {
 
@@ -32,30 +32,33 @@ class NavigationComponent extends Component {
 
     clickHandler(idLink) {
         this.setState({ activeLink: idLink })
+        let obj = document.getElementById("idToggler");
+        if (obj.className.indexOf("collapsed") === -1)
+            obj.click()
     }
 
     render() {
         const links = this.state.links
         const linkList = links.map(link => (
-            <li className="nav-item" key={link.id}>
-                <Button className={`nav-link btn btn-link ${link.id === this.state.activeLink ? 'active' : ''}`}
-                    onClick={() => this.clickHandler(link.id)}>{link.linkName}</Button>
-            </li >
+            <NavDropdown.Item key={link.id} className={`nav-item nav-link btn btn-link ${link.id === this.state.activeLink ? 'active' : ''}`}
+                onClick={() => this.clickHandler(link.id)}>
+                {link.linkName}
+            </NavDropdown.Item>
         ))
         const component = links.filter(link => link.id === this.state.activeLink).map(link => link.component);
         return (
             <>
-                <Nav className="navbar navbar-expand-lg navbar-dark bg-primary mb-5">
+                <Navbar className="navbar-dark bg-primary mb-5" expand="lg">
                     <Container>
-                        <Button className="navbar-brand btn btn-link"
-                            onClick={() => this.clickHandler(this.state.links[0].id)}>COUNTER DIARY</Button>
-                        <div className="collapse navbar-collapse" id="navbarNav">
-                            <ul className="navbar-nav">
+                        <Navbar.Brand onClick={() => this.clickHandler(this.state.links[0].id)}>COUNTER DIARY</Navbar.Brand>
+                        <Navbar.Toggle aria-controls="basic-navbar-nav" id="idToggler" />
+                        <Navbar.Collapse id="basic-navbar-nav">
+                            <Nav className="me-auto">
                                 {linkList}
-                            </ul>
-                        </div>
+                            </Nav>
+                        </Navbar.Collapse>
                     </Container>
-                </Nav>
+                </Navbar>
                 <Container>
                     {component}
                 </Container>
